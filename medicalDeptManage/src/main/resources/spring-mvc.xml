@@ -19,10 +19,10 @@ http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- 注解扫描包 , 多个写法:com.zsx.web.*,org.weixin.*  (以完成bean创建和自动依赖注入的功能)-->
-    <context:component-scan base-package="com.github.jptx1234.mdm*" >
+    <context:component-scan base-package="com.github.jptx1234.mdm.*" >
         <!-- springMVC配置文件中将Service注解给去掉 -->
-        <!-- <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+        <!-- <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository" /> -->
     </context:component-scan>
 
