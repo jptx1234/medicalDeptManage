@@ -71,7 +71,7 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.vfsd.dao" />
+		<property name="basePackage" value="com.github.jptx1234.mdm.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 
