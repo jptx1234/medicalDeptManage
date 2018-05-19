@@ -23,7 +23,15 @@ public class StuffPackTypeServiceImpl implements StuffPackTypeService {
 
 	@Override
 	public List<StuffPackType> list(StuffPackType example, int pageNum, int pageSize) {
-		return null;
+		int start = pageSize * (pageNum - 1);
+		List<StuffPackType> list = stuffPackTypeDao.listByPage(example, start, pageSize);
+		
+		return list;
+	}
+
+	@Override
+	public int delete(List<Integer> idList) {
+		return stuffPackTypeDao.delete(idList);
 	}
 
 }

@@ -10,4 +10,6 @@ public interface StuffPackTypeService {
 
 	List<StuffPackType> list(StuffPackType example, int pageNum, int pageSize);
 
+	int delete(List<Integer> idList);
+
 }

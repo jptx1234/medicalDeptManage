@@ -32,4 +32,36 @@
 			
 		</where>
 	</select>
+	
+	<select id="listByPage" resultMap="resultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from stuff_pack_type
+		<where>
+			<if test="example.id != null">
+				id = #{example.id,jdbcType=INTEGER}
+			</if>
+			<if test="example.packTypeName != null">
+				AND pack_type_name LIKE CONCAT('%', #{example.packTypeName,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="example.packTypeDesc != null">
+				AND pack_type_desc LIKE CONCAT('%', #{example.packTypeDesc,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="example.state != null">
+				AND state = #{example.state,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY state_date DESC
+		LIMIT #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+	</select>
+	
+	<update id="delete" parameterType="java.util.List">
+		UPDATE stuff_pack_type SET state = '0', state_date = CURRENT_TIMESTAMP()
+		<where>
+			id in 
+			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+	            #{item}  
+	        </foreach>
+		</where>
+	</update>
 </mapper>
