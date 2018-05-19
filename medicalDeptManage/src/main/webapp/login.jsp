@@ -74,12 +74,12 @@
 		function userLogon(){
 			
 			if ($("#staffEname").val() == "") {
-                alert("用户名不能为空！");
+                //alert("用户名不能为空！");
                 $("#staffEname").focus();
                 return false;
             }
             if ($("#password").val() == "") {
-                alert("密码不能为空！");
+                //alert("密码不能为空！");
                 $("#password").focus();
                 return false;
             }
@@ -97,7 +97,7 @@
             staff.staffState = "";
             staff.createDate = "";
             staff.stateDate = "";
-            alert(JSON.stringify(staff));
+            //alert(JSON.stringify(staff));
             $.ajax({
                 type: "POST",
                 url: "/mdm/staffController/logon",
@@ -106,7 +106,7 @@
                 data:"staff="+ JSON.stringify(staff)+"",
                 success: function (data) {
                 	if (data.result == "0") {
-                        location.href = "pages/main.html";
+                        location.href = "pages/main.jsp";
                         return true;
                     }
                     else {

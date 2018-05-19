@@ -12,10 +12,10 @@
     <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
     <result column="is_admin" property="isAdmin" jdbcType="VARCHAR" />
     <result column="staff_state" property="staffState" jdbcType="VARCHAR" />
-    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="state_date" property="stateDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="state_date" property="stateDate" jdbcType="VARCHAR" />
   </resultMap>
- 
+  
   <select id="getPasswordByEname" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
      <include refid="Base_Column_List" />
@@ -86,6 +86,7 @@
     id, staff_name, staff_ename, password, sex, phone_no, email, dept_name, is_admin, 
     staff_state, create_date, state_date
   </sql>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.github.jptx1234.mdm.model.StaffExample" >
     select
     <if test="distinct" >
@@ -99,6 +100,9 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+    <if test="startRow != null and pageSize != null and pageSize != 0">
+    	limit #{startRow},#{pageSize}
+	</if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

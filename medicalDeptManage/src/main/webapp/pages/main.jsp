@@ -1,9 +1,22 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-    <meta charset="utf-8"> 
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.github.jptx1234.mdm.model.Staff" %>
+<%	
+	if(null==request.getSession().getAttribute("staff")){
+		System.out.println(request.getContextPath());
+		response.sendRedirect(request.getContextPath()+"/login.jsp");
+		return;
+	}
+	Staff staff = (Staff)request.getSession().getAttribute("staff");
+	String staffName = staff.getStaffName();
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="utf-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
-    <title>uimaker信息管理系统</title> 
+    <title>科室信息管理系统</title> 
 <link href="css/base.css" rel="stylesheet">
 <link href="css/platform.css" rel="stylesheet">
 <link rel="stylesheet" href="../custom/uimaker/easyui.css">
@@ -50,7 +63,7 @@
                 <div class="pf-user-photo">
                     <img src="images/main/user.png" alt="">
                 </div>
-                <h4 class="pf-user-name ellipsis">uimaker</h4>
+                <h4 class="pf-user-name ellipsis"><%=staffName %></h4>
                 <i class="iconfont xiala">&#xe607;</i>
 
                 <div class="pf-user-panel">
@@ -68,9 +81,9 @@
                             </a>
                         </li> -->
                         <li class="pf-logout">
-                            <a href="login.html">
+                            <a href="javascript:void(0);" onclick="loginOut();">
                                 <i class="iconfont">&#xe60e;</i>
-                                <span class="pf-opt-name">退出</span>
+                                <span class="pf-opt-name" >退出</span>
                             </a>
                         </li>
                     </ul>
@@ -219,8 +232,12 @@
       $("#main_iframe").attr("title",title);
       $(".page-iframe").attr("src",url);
     }
-
+	
+    
+    function loginOut(){
+    	window.location.href = "/mdm/pages/loginOut.jsp";
+    }
 
     </script>
-</body> 
+</body>
 </html>

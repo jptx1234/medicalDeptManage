@@ -1,6 +1,8 @@
 package com.github.jptx1234.mdm.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Staff implements Serializable {
@@ -24,9 +26,13 @@ public class Staff implements Serializable {
 
     private String staffState;
 
-    private Date createDate;
+    /*private Date createDate;
 
-    private Date stateDate;
+    private Date stateDate;*/
+    
+    private String createDate;
+    
+    private String stateDate;
 
     private static final long serialVersionUID = 1L;
 
@@ -67,7 +73,7 @@ public class Staff implements Serializable {
     }
 
     public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
+    	this.sex = sex == null ? null : sex.trim();
     }
 
     public String getPhoneNo() {
@@ -110,8 +116,39 @@ public class Staff implements Serializable {
         this.staffState = staffState == null ? null : staffState.trim();
     }
 
-    public Date getCreateDate() {
-        return createDate;
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getStateDate() {
+		return stateDate;
+	}
+
+	public void setStateDate(String stateDate) {
+		this.stateDate = stateDate;
+	}
+
+    /*public Date getCreateDate() {
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	String createDateStr = sdf.format(createDate);
+    	Date cDate = null;
+    	try {
+			cDate = sdf.parse(createDateStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	if(null!=cDate) {
+    		return cDate;
+    	}else {
+    		return createDate;
+    	}
+        
     }
 
     public void setCreateDate(Date createDate) {
@@ -124,5 +161,7 @@ public class Staff implements Serializable {
 
     public void setStateDate(Date stateDate) {
         this.stateDate = stateDate;
-    }
+    }*/
+    
+    
 }

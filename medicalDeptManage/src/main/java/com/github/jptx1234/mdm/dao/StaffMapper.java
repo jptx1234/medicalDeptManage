@@ -2,6 +2,8 @@ package com.github.jptx1234.mdm.dao;
 
 import com.github.jptx1234.mdm.model.Staff;
 import com.github.jptx1234.mdm.model.StaffExample;
+import com.github.jptx1234.mdm.model.StuffPackType;
+
 import java.util.List;
 import java.util.Map;
 
@@ -34,4 +36,5 @@ public interface StaffMapper {
     int updateByPrimaryKey(Staff record);
     
     Staff getPasswordByEname(String staffEname);
+    
 }
