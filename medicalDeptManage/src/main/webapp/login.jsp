@@ -8,6 +8,8 @@
     <title>科室信息管理系统</title> 
     <link href="pages/css/base.css" rel="stylesheet">
     <link href="pages/css/login/login.css" rel="stylesheet">
+    
+    <script language="javascript" src="custom/jquery.min.js" ></script>
 
 </head> 
 <body>
@@ -30,14 +32,14 @@
 			              <i class="iconfont">&#xe62e;</i>
 			              <span>请输入用户名</span>
 			            </div>
-						<form>
+						<form id="logonForm" name="logonForm">
 							<div class="lg-username input-item clearfix">
 								<i class="iconfont">&#xe60d;</i>
-								<input type="text" placeholder="账号/邮箱">
+								<input name="staffEname" id="staffEname" type="text" placeholder="账号/邮箱">
 							</div>
 							<div class="lg-password input-item clearfix">
 								<i class="iconfont">&#xe634;</i>
-								<input type="password" placeholder="请输入密码">
+								<input name="password" id="password" type="password" placeholder="请输入密码">
 							</div>
 							<div class="lg-check clearfix" style="display:none;">
 								<div class="input-item">
@@ -52,8 +54,7 @@
 								<a href="javascript:;" class="forget-pwd">忘记密码？</a>
 							</div>
 							<div class="enter" style="width:100%;">
-								<!-- <a href="javascript:;" class="purchaser" onClick="javascript:window.location='main.html'">采购商登录</a> -->
-								<a href="javascript:;" style="float:right;width:82%;margin-right:30px;" class="supplier" onClick="javascript:window.location='main.html'">登录</a>
+								<a href="javascript:;" style="float:right;width:82%;margin-right:30px;" class="supplier" onClick="userLogon();">登录</a>
 							</div>
 						</form>
 					</div>
@@ -68,5 +69,57 @@
 			</div>
 		</div>
 	</div>
+	
+	<script type="text/javascript">
+		function userLogon(){
+			
+			if ($("#staffEname").val() == "") {
+                alert("用户名不能为空！");
+                $("#staffEname").focus();
+                return false;
+            }
+            if ($("#password").val() == "") {
+                alert("密码不能为空！");
+                $("#password").focus();
+                return false;
+            }
+            
+            var staff = new Object();
+            staff.id = "";
+            staff.staffName = "";
+            staff.staffEname = $("#staffEname").val();
+            staff.password = $("#password").val();
+            staff.sex = "";
+            staff.phoneNo = "";
+            staff.email = "";
+            staff.deptName = "";
+            staff.isAdmin = "";
+            staff.staffState = "";
+            staff.createDate = "";
+            staff.stateDate = "";
+            alert(JSON.stringify(staff));
+            $.ajax({
+                type: "POST",
+                url: "/mdm/staffController/logon",
+               	dataType:"json",
+               	async:false,
+                data:"staff="+ JSON.stringify(staff)+"",
+                success: function (data) {
+                	if (data.result == "0") {
+                        location.href = "pages/main.html";
+                        return true;
+                    }
+                    else {
+                        alert(data.resultDesc);
+                        $("#staffEname").val("");
+                        $("#password").val("");
+                        $("#staffEname").focus();
+                        return false;
+                    }
+                }
+
+            });			
+		}
+	</script>
 </body> 
 </html>
