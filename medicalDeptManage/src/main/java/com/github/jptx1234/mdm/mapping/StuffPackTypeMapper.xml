@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.jptx1234.mdm.dao.StuffPackTypeDao">
+	<resultMap id="resultMap" type="com.github.jptx1234.mdm.model.StuffPackType">
+		<id column="id" property="id" javaType="int" jdbcType="INTEGER"/>
+		<result column="pack_type_name" property="packTypeName" jdbcType="VARCHAR" />
+		<result column="pack_type_desc" property="packTypeDesc" jdbcType="VARCHAR" />
+		<result column="pack_type_img" property="packTypeImg" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="DATE" />
+		<result column="state_date" property="stateDate" jdbcType="DATE" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, pack_type_name, pack_type_desc, pack_type_img, state, create_date, state_date
+	</sql>
+	<select id="count" resultType="int" parameterType="com.github.jptx1234.mdm.model.StuffPackType">
+		select count(0)
+		from stuff_pack_type
+		<where>
+			<if test="id != null">
+				id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="packTypeName != null">
+				AND pack_type_name LIKE CONCAT('%', #{packTypeName,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="packTypeDesc != null">
+				AND pack_type_desc LIKE CONCAT('%', #{packTypeDesc,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="state != null">
+				AND state = #{state,jdbcType=VARCHAR}
+			</if>
+			
+		</where>
+	</select>
+</mapper>
