@@ -14,31 +14,31 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.github.jptx1234.mdm.model.StuffPack;
-import com.github.jptx1234.mdm.service.StuffPackService;
+import com.github.jptx1234.mdm.model.StuffPackDecompose;
+import com.github.jptx1234.mdm.service.StuffPackDecomposeService;
 import com.github.jptx1234.mdm.util.FileUploadUtils;
 
 /**
  * 物品包类别
  *
  */
-@RequestMapping("/stuffPack")
+@RequestMapping("/stuffPackDecompose")
 @RestController
-public class StuffPackController {
-	private static final Logger logger = Logger.getLogger(StuffPackController.class);
+public class StuffPackDecomposeController {
+	private static final Logger logger = Logger.getLogger(StuffPackDecomposeController.class);
 
 	@Autowired
-	private StuffPackService stuffPackService;
+	private StuffPackDecomposeService stuffPackDecomposeService;
 	
 	@RequestMapping("/list")
 	public JSON list(@RequestParam(value="kw", required=false, defaultValue="") String kw, @RequestParam(value="page", required=false, defaultValue="1") Integer page, @RequestParam(value="rows", required=false, defaultValue="100") Integer pageSize) {
-		logger.info("查物品包列表，查询条件：kw="+kw+"，页号"+page+"，页大小"+pageSize);
+		logger.info("查物品包分解实例列表，查询条件：kw="+kw+"，页号"+page+"，页大小"+pageSize);
 		int total = 0;
-		List<StuffPack> rows = new ArrayList<>();
+		List<StuffPackDecompose> rows = new ArrayList<>();
 		JSONObject resultObject = new JSONObject();
 		try {
-			total = stuffPackService.countBlur(kw);
-			rows = stuffPackService.listBlur(kw, page, pageSize);
+			total = stuffPackDecomposeService.countBlur(kw);
+			rows = stuffPackDecomposeService.listBlur(kw, page, pageSize);
 			resultObject.put("status", 200);
 			resultObject.put("msg", "查询成功");
 		}catch (Exception e) {
@@ -56,10 +56,10 @@ public class StuffPackController {
 	
 	@RequestMapping("/delete")
 	public JSON delete(@RequestParam(value="id") List<Integer> idList) {
-		logger.info("正在删除包"+idList);
+		logger.info("正在删除物品包分解实例"+idList);
 		JSONObject resultObject = new JSONObject();
 		try {
-			int count = stuffPackService.delete(idList);
+			int count = stuffPackDecomposeService.delete(idList);
 			resultObject.put("status", 200);
 			resultObject.put("msg", "成功删除"+count+"条");
 		}catch (Exception e) {
@@ -76,20 +76,20 @@ public class StuffPackController {
 	}
 	
 	@RequestMapping("/add")
-	public JSON add(@RequestParam("packTypeId") Integer packTypeId,  @RequestParam("packName") String packName, @RequestParam("packDesc") String packDesc, @RequestParam(value="packImg", required=false) MultipartFile file) {
-		String packImg = FileUploadUtils.uploadFile(file);
-		StuffPack stuffPack = new StuffPack();
+	public JSON add(@RequestParam("packId") Integer packId,  @RequestParam("decomposeName") String decomposeName, @RequestParam("decomposeDesc") String decomposeDesc, @RequestParam(value="decomposeImg", required=false) MultipartFile file) {
+		String decomposeImg = FileUploadUtils.uploadFile(file);
+		StuffPackDecompose stuffPackDecompose = new StuffPackDecompose();
 		
-		stuffPack.setPackTypeId(packTypeId);
-		stuffPack.setPackName(packName);
-		stuffPack.setPackDesc(packDesc);
-		stuffPack.setPackImg(packImg);
+		stuffPackDecompose.setPackId(packId);
+		stuffPackDecompose.setDecomposeName(decomposeName);
+		stuffPackDecompose.setDecomposeDesc(decomposeDesc);
+		stuffPackDecompose.setDecomposeImg(decomposeImg);
 		
-		logger.info("物品包类别添加接口正在添加："+stuffPack);
+		logger.info("物品包分解实例添加接口正在添加："+stuffPackDecompose);
 		
 		JSONObject resultObject = new JSONObject();
 		try {
-			stuffPackService.add(stuffPack);
+			stuffPackDecomposeService.add(stuffPackDecompose);
 			resultObject.put("status", 200);
 			resultObject.put("msg", "添加成功");
 		}catch (Exception e) {

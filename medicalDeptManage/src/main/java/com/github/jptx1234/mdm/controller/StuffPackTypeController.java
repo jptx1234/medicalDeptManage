@@ -1,6 +1,7 @@
 package com.github.jptx1234.mdm.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,17 +34,21 @@ public class StuffPackTypeController {
 	public JSON list(@RequestParam(value="kw", required=false, defaultValue="") String kw, @RequestParam(value="page", required=false, defaultValue="1") Integer page, @RequestParam(value="rows", required=false, defaultValue="100") Integer pageSize) {
 		logger.info("查物品包分类列表，查询条件：kw="+kw+"，页号"+page+"，页大小"+pageSize);
 		int total = 0;
-		List<StuffPackType> rows = null;
+		List<StuffPackType> rows = new ArrayList<>();
+		JSONObject resultObject = new JSONObject();
 		try {
 			total = stuffPackTypeService.countBlur(kw);
 			rows = stuffPackTypeService.listBlur(kw, page, pageSize);
+			resultObject.put("status", 200);
+			resultObject.put("msg", "查询成功");
 		}catch (Exception e) {
 			logger.error("查物品包分类列表出错", e);
+			resultObject.put("status", 500);
+			resultObject.put("msg", "查询出错："+e.getLocalizedMessage());
 		}
-		
-		JSONObject resultObject = new JSONObject();
 		resultObject.put("total", total);
 		resultObject.put("rows", rows);
+		
 		logger.info("查询结果："+resultObject);
 		
 		return resultObject;
