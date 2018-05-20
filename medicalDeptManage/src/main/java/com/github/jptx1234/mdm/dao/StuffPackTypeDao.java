@@ -14,4 +14,10 @@ public interface StuffPackTypeDao {
 
 	int delete(List<Integer> idList);
 
+	void insert(StuffPackType stuffPackType);
+
+	int countBlur(@Param("kw") String kw);
+
+	List<StuffPackType> listBlur(@Param("kw") String kw, @Param("start") int start, @Param("size") int pageSize);
+
 }

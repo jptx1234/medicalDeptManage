@@ -34,4 +34,30 @@ public class StuffPackTypeServiceImpl implements StuffPackTypeService {
 		return stuffPackTypeDao.delete(idList);
 	}
 
+	@Override
+	public void add(StuffPackType stuffPackType) {
+		String stuffPackTypeName = stuffPackType.getPackTypeName();
+		if(stuffPackTypeName != null) {
+			StuffPackType example = new StuffPackType();
+			example.setPackTypeName(stuffPackTypeName);
+			List<StuffPackType> list = stuffPackTypeDao.listByPage(example, 0, 10);
+			if(list != null && list.size() > 0) {
+				throw new RuntimeException("类别名称【"+stuffPackTypeName+"】已存在");
+			}
+		}
+		
+		stuffPackTypeDao.insert(stuffPackType);
+	}
+
+	@Override
+	public int countBlur(String kw) {
+		return stuffPackTypeDao.countBlur(kw);
+	}
+
+	@Override
+	public List<StuffPackType> listBlur(String kw, Integer page, Integer pageSize) {
+		int start = pageSize * (page - 1);
+		return stuffPackTypeDao.listBlur(kw, start, pageSize);
+	}
+
 }

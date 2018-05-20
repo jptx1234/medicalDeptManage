@@ -4,17 +4,19 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * 物品包类别
+ * 物品包实例
  *
  */
-public class StuffPackType implements Serializable {
+public class StuffPack implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
+	private Integer packTypeId;
 	private String packTypeName;
-	private String packTypeDesc;
-	private String packTypeImg;
+	private String packName;
+	private String packDesc;
+	private String packImg;
 	private String state = "1";//1有效，0无效
 	private Date createDate;
 	private Date stateDate;
@@ -24,23 +26,35 @@ public class StuffPackType implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	public Integer getPackTypeId() {
+		return packTypeId;
+	}
+	public void setPackTypeId(Integer packTypeId) {
+		this.packTypeId = packTypeId;
+	}
 	public String getPackTypeName() {
 		return packTypeName;
 	}
 	public void setPackTypeName(String packTypeName) {
 		this.packTypeName = packTypeName;
 	}
-	public String getPackTypeDesc() {
-		return packTypeDesc;
+	public String getPackName() {
+		return packName;
 	}
-	public void setPackTypeDesc(String packTypeDesc) {
-		this.packTypeDesc = packTypeDesc;
+	public void setPackName(String packName) {
+		this.packName = packName;
 	}
-	public String getPackTypeImg() {
-		return packTypeImg;
+	public String getPackDesc() {
+		return packDesc;
 	}
-	public void setPackTypeImg(String packTypeImg) {
-		this.packTypeImg = packTypeImg;
+	public void setPackDesc(String packDesc) {
+		this.packDesc = packDesc;
+	}
+	public String getPackImg() {
+		return packImg;
+	}
+	public void setPackImg(String packImg) {
+		this.packImg = packImg;
 	}
 	public String getState() {
 		return state;
@@ -62,9 +76,9 @@ public class StuffPackType implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "StuffPackType [id=" + id + ", packTypeName=" + packTypeName + ", packTypeDesc=" + packTypeDesc
-				+ ", packTypeImg=" + packTypeImg + ", state=" + state + ", createDate=" + createDate + ", stateDate="
-				+ stateDate + "]";
+		return "StuffPack [id=" + id + ", packTypeId=" + packTypeId + ", packTypeName=" + packTypeName + ", packName="
+				+ packName + ", packDesc=" + packDesc + ", packImg=" + packImg + ", state=" + state + ", createDate="
+				+ createDate + ", stateDate=" + stateDate + "]";
 	}
 	
 

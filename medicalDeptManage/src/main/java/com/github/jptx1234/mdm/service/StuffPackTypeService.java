@@ -12,4 +12,10 @@ public interface StuffPackTypeService {
 
 	int delete(List<Integer> idList);
 
+	void add(StuffPackType stuffPackType);
+
+	int countBlur(String kw);
+
+	List<StuffPackType> listBlur(String kw, Integer page, Integer pageSize);
+
 }
