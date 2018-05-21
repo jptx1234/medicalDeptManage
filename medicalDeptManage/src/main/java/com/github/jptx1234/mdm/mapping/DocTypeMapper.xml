@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.jptx1234.mdm.dao.DocTypeDao">
+	<resultMap id="resultMap" type="com.github.jptx1234.mdm.model.DocType">
+		<id column="id" property="id" javaType="int" jdbcType="INTEGER"/>
+		<result column="doc_type_name" property="doc_type_name" jdbcType="VARCHAR" />
+		<result column="doc_type_desc" property="doc_type_desc" jdbcType="VARCHAR" />
+		<result column="doc_type_img" property="doc_type_img" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="create_date" property="create_date" jdbcType="TIMESTAMP" />
+		<result column="state_date" property="state_date" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, doc_type_name, doc_type_desc, doc_type_img, state, create_date, state_date
+	</sql>
+	<select id="count" resultType="int" parameterType="com.github.jptx1234.mdm.model.DocType">
+		select count(0)
+		from doc_type
+		<where>
+			<if test="id != null">
+				id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="doc_type_name != null">
+				AND doc_type_name LIKE CONCAT('%', #{doc_type_name,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="doc_type_desc != null">
+				AND doc_type_desc LIKE CONCAT('%', #{doc_type_desc,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="state != null">
+				AND state = #{state,jdbcType=VARCHAR}
+			</if>
+			
+		</where>
+	</select>
+	
+	<select id="countBlur" resultType="int">
+		select count(0)
+		from doc_type
+		WHERE 
+		state = '1'
+		AND
+		(
+			doc_type_name LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
+			OR
+			doc_type_desc LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
+		)
+	</select>
+	
+	<select id="listByPage" resultMap="resultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from doc_type
+		<where>
+			<if test="example.id != null">
+				id = #{example.id,jdbcType=INTEGER}
+			</if>
+			<if test="example.doc_type_name != null">
+				AND doc_type_name LIKE CONCAT('%', #{example.doc_type_name,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="example.decomposeDesc != null">
+				AND doc_type_desc LIKE CONCAT('%', #{example.doc_type_desc,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="example.state != null">
+				AND state = #{example.state,jdbcType=VARCHAR}
+			</if>
+			
+		</where>
+		ORDER BY create_date DESC
+		<if test="size > 0" >
+			LIMIT #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+		</if>
+	</select>
+	
+	<select id="listBlur" resultMap="resultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from doc_type
+		WHERE 
+		state = '1'
+		AND
+		(
+			doc_type_name LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
+			OR
+			doc_type_desc LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
+		)
+		ORDER BY create_date DESC
+		<if test="size > 0">
+			LIMIT #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+		</if>
+	</select>
+	
+	<update id="delete" parameterType="java.util.List">
+		UPDATE doc_type SET state = '0', state_date = CURRENT_TIMESTAMP()
+		<where>
+			id in 
+			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+	            #{item}  
+	        </foreach>
+		</where>
+	</update>
+	
+	<insert id="insert" parameterType="com.github.jptx1234.mdm.model.DocType">
+		INSERT INTO doc_type
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="doc_type_name != null">
+				doc_type_name,
+			</if>
+			<if test="doc_type_desc != null">
+				doc_type_desc,
+			</if>
+			<if test="doc_type_img != null">
+				doc_type_img,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="create_date != null">
+				create_date,
+			</if>
+			<if test="state_date != null">
+				state_date,
+			</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="doc_type_name != null">
+				#{doc_type_name,jdbcType=VARCHAR},
+			</if>
+			<if test="doc_type_desc != null">
+				#{doc_type_desc,jdbcType=VARCHAR},
+			</if>
+			<if test="doc_type_img != null">
+				#{doc_type_img,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=VARCHAR},
+			</if>
+			<if test="create_date != null">
+				#{create_date,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state_date != null">
+				#{state_date,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+</mapper>

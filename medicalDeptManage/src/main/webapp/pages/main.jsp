@@ -107,10 +107,10 @@
                             <span class="sider-nav-title">物品包管理</span>
                             <i class="iconfont">&#xe642;</i>
                         </a>
-                        <ul class="sider-nav-s">
+                         <ul class="sider-nav-s">
                            <li class=""><a href="javascript:void(0);" onclick="openPageAtTab('物品包类别维护','stuffPackTypeList.html');">物品包类别维护</a></li>
-                           <li class=""><a href="javascript:void(0);" onclick="openPageAtTab('物品包实例维护','process.html');">物品包实例维护</a></li>
-                           <li class=""><a href="#">物品包分解实例维护</a></li>
+                           <li class=""><a href="javascript:void(0);" onclick="openPageAtTab('物品包实例维护','stuffPackList.html');">物品包实例维护</a></li>
+                           <li class=""><a href="javascript:;" onclick="openPageAtTab('物品包分解实例维护','stuffPackDecompose.html');">物品包分解实例维护</a></li> 
                         </ul>
                      </li>
                      <li>
@@ -120,7 +120,7 @@
                             <i class="iconfont">&#xe642;</i>
                         </a>
                         <ul class="sider-nav-s">
-                           <li class=""><a href="#">文档类别维护</a></li>
+                           <li class=""><a href="javascript:;" onclick="openPageAtTab('文档类别维护','docType.html');">文档类别维护</a></li> 
                            <li class=""><a href="#">文档上传和维护</a></li>
                         </ul>
                      </li>
