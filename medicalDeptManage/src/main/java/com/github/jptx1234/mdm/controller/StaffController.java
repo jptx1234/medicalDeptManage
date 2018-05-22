@@ -20,7 +20,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.jptx1234.mdm.model.Staff;
 import com.github.jptx1234.mdm.model.StaffExample;
 import com.github.jptx1234.mdm.model.StaffExample.Criteria;
-import com.github.jptx1234.mdm.model.StuffPackType;
 import com.github.jptx1234.mdm.service.StaffService;
 import com.github.jptx1234.mdm.util.MD5;
 
@@ -34,17 +33,32 @@ public class StaffController {
 	private StaffService staffService;
 	
 	
-	@RequestMapping(value="/logon")
+	@RequestMapping(value="/logon",produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String logon(@RequestParam(name="staff",required=true) String staffJson, HttpServletRequest request) {
 		String returnJson = "";
 		//AjaxResult
-		
+		Map returnMap = new HashMap();
 		Staff staff = new Staff();
-		staff = JSON.parseObject(staffJson, Staff.class);
-		logger.info("登录名称："+staff.getStaffEname()+"登录密码明文："+staff.getPassword());
-		String staffEname = staff.getStaffEname();
-		String password = staff.getPassword();//前台传来的明文
+		String staffEname = "";
+		String password = "";
+		try {
+			staff = JSON.parseObject(staffJson, Staff.class);
+			logger.info("登录名称："+staff.getStaffEname()+"登录密码明文："+staff.getPassword());
+			staffEname = staff.getStaffEname();
+			password = staff.getPassword();//前台传来的明文
+			if(null==staffEname||null==password) {
+				throw new Exception("入参不正常！");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.info("入参校验不通过！", e);
+			returnMap.put("result", "1");
+			returnMap.put("resultDesc", "密码输入错误，请检查后再重新输入！");
+			returnJson = JSON.toJSONString(returnMap);
+			return returnJson;
+		}
+		
 		String passwordMd5 = MD5.MD5Encode(password);
 		
 		//从数据库里面根据staffEname查询出密文；
@@ -52,9 +66,6 @@ public class StaffController {
 		staffDb = staffService.getPwdByEName(staffEname);
 		String passwordDb = staffDb.getPassword();
 		logger.info("数据库里面查询出来的密码密文："+passwordDb);
-		
-		Map returnMap = new HashMap();
-		
 		if(passwordMd5.equals(passwordDb)) {//密码校验一致，登录成功，将Map去除掉MD5密文，转成json返回前台
 			request.getSession().setAttribute("staff", staffDb);
 			returnMap.put("staff", staffDb);
@@ -66,7 +77,6 @@ public class StaffController {
 			returnMap.put("resultDesc", "密码输入错误，请检查后再重新输入！");
 			returnJson = JSON.toJSONString(returnMap);
 		}
-		
 		return returnJson;
 	}
 	

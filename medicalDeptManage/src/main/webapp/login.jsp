@@ -97,13 +97,13 @@
             staff.staffState = "";
             staff.createDate = "";
             staff.stateDate = "";
-            //alert(JSON.stringify(staff));
+            alert(JSON.stringify(staff));
             $.ajax({
                 type: "POST",
                 url: "/mdm/staffController/logon",
                	dataType:"json",
                	async:false,
-                data:"staff="+ JSON.stringify(staff)+"",
+                data:"staff="+ JSON.stringify(staff),
                 success: function (data) {
                 	if (data.result == "0") {
                         location.href = "pages/main.jsp";
