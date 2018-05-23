@@ -52,6 +52,9 @@
 			OR
 			pack_desc LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
 		)
+		<if test="packTypeId != null">
+		AND pack_type_id = #{packTypeId, jdbcType=INTEGER}
+		</if>
 	</select>
 	
 	<select id="listByPage" resultMap="resultMap">
@@ -97,6 +100,9 @@
 			OR
 			a.pack_desc LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
 		)
+		<if test="packTypeId != null">
+		AND pack_type_id = #{packTypeId, jdbcType=INTEGER}
+		</if>
 		ORDER BY a.create_date DESC
 		<if test="size > 0">
 			LIMIT #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}

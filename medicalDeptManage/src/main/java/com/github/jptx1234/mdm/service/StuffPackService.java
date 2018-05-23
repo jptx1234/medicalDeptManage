@@ -14,8 +14,8 @@ public interface StuffPackService {
 
 	void add(StuffPack stuffPackType);
 
-	int countBlur(String kw);
+	int countBlur(String kw, Integer packTypeId);
 
-	List<StuffPack> listBlur(String kw, Integer page, Integer pageSize);
+	List<StuffPack> listBlur(String kw, Integer page, Integer pageSize, Integer packTypeId);
 
 }

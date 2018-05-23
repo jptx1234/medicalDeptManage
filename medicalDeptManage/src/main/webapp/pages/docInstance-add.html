@@ -1,0 +1,172 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>文档实例维护</title> 
+
+<link rel="stylesheet" href="plugins/summernote/bootstrap.min.css" />
+<link rel="stylesheet" href="plugins/summernote/summernote-bs4.css" />
+<style>
+	html,
+	body,
+	#ff {
+		height: 100%;
+	}
+	
+	table.kv-table {
+		width: 100%;
+	}
+	
+	tbody {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font: inherit;
+		font-size: 100%;
+		vertical-align: baseline;
+	}
+	
+	.kv-table .kv-table-row {
+		border-bottom: 1px solid #cacaca;
+	}
+	
+	table.kv-table tr:first-child td.kv-content,
+	table.kv-table tr:first-child td.kv-label {
+		border-top: 1px solid #cacaca;
+	}
+	
+	table.kv-table td.kv-content,
+	table.kv-table td.kv-label {
+		height: 29px;
+		font-size: 14px;
+		padding: 5px 0px 5px 20px;
+		border-bottom: 1px solid rgb(202, 202, 202);
+	}
+	
+	table.kv-table .kv-label {
+		width: 114px;
+		padding: 0px 10px;
+		background: rgb(245, 245, 245);
+		border-width: 1px 1px 1px;
+		border-style: none solid solid;
+		border-color: rgb(202, 202, 202) rgb(202, 202, 202) rgb(202, 202, 202);
+		border-image: initial;
+		border-top: none;
+	}
+	
+	table.kv-table tr td.kv-content:last-child {
+		border-right: 1px solid #cacaca;
+	}
+	
+	table.kv-table tr:first-child td.kv-content,
+	table.kv-table tr:first-child td.kv-label {
+		border-top: 1px solid #cacaca;
+	}
+	
+	table.kv-table td.kv-content,
+	table.kv-table td.kv-label {
+		height: 29px;
+		font-size: 14px;
+		padding: 5px 0px 5px 20px;
+		border-bottom: 1px solid rgb(202, 202, 202);
+	}
+	#ff .kv-label{
+		width: 15%;
+	}
+	#ff .kv-content{
+		width: 85%;
+	}
+	#ff input.textbox-text{
+		height: 33px;
+		width: 80%;
+		line-height: 33px;
+	}
+</style>
+</head> 
+<body>
+    
+    <form id="ff" method="post" style="width: 100%;margin: 0 auto;" enctype="multipart/form-data"> 
+    	<table class="kv-table">
+    		<tbody>
+    			<tr class="kv-table-row">
+    				<td class="kv-label">文档名称：</td>
+    				<td class="kv-content">
+				        <input name="doc_type_name" type="text" class="textbox-text input-content" maxlength="2000" title="请输入文档类别名称，最多255个字节" />  
+    				</td>
+    			</tr>
+    			<tr class="kv-table-row">
+    				<td class="kv-label">文档描述：</td>
+    				<td class="kv-content">
+				        <input name="doc_type_desc" type="text" class="textbox-text input-content" maxlength="2000" title="请输入文档类别描述，最多2000个字节" />  
+    				</td>
+    			</tr>
+    			<tr class="kv-table-row">
+    				<td class="kv-label">文档来源：</td>
+    				<td class="kv-content">
+    					<input type="radio" name="is_html" value="1" checked="checked" >手动输入</input>
+    					<input type="radio" name="is_html" value="0" >上传文件</input>
+    				</td>
+    			</tr>
+    			<tr class="kv-table-row">
+    				<td class="kv-label">文档内容：</td>
+    				<td class="kv-content">
+    					<div id="doc_html">
+    						<div id="summernote"></div>
+    						<input type="hidden" name="doc_html" />
+    					</div>
+    					<div id="doc_file" style="display: none;">
+							<input name="doc_path" id="file-upload">
+    					</div>
+    				</td>
+    			</tr>
+    		</tbody>
+    	</table>
+	</form>  
+    <script type="text/javascript" src="../custom/jquery.min.js"></script>
+    <script type="text/javascript" src="../custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="plugins/summernote/popper.min.js"></script>
+    <script type="text/javascript" src="plugins/summernote/bootstrap.min.js"></script>
+    <script type="text/javascript" src="plugins/summernote/summernote-bs4.min.js"></script>
+    <script type="text/javascript" src="plugins/summernote/lang/summernote-zh-CN.js"></script>
+
+
+
+    <script type="text/javascript">
+    	baseUrl = '..';
+    	$(function(){
+    		
+			
+			$('#ff input[name=is_html]').click(function(){
+				var value = $(this).val();
+				if(value == 1){
+					$('#doc_file').hide();
+					$('#file-upload').filebox('clear');
+					$('#doc_html').show();
+				}else if(value == 0){
+					$('#doc_html').hide();
+					$('#doc_file').show();
+				}
+			});
+			
+			$('#summernote').summernote({
+				lang: 'zh-CN',
+				height: 250,
+				toolbar: [
+				    ['style', ['bold', 'italic', 'underline', 'clear']],
+				    ['font', ['strikethrough', 'superscript', 'subscript' ]],
+				    ['fontsize', ['fontname', 'fontsize']],
+				    ['color', ['color']],
+				    ['para', ['ul', 'ol', 'paragraph', 'style']],
+				    ['height', ['height']],
+				    ['misc', ['fullscreen', 'undo', 'redo', 'help', 'codeview']]
+				  ]
+			});
+			
+			$('#summernote').on('summernote.change', function(we, contents, $editable) {
+				$('#ff input[name=doc_html]').val(contents);
+			});
+    	});
+    </script>
+</body> 
+</html>

@@ -41,14 +41,14 @@ public class StuffPackServiceImpl implements StuffPackService {
 	}
 
 	@Override
-	public int countBlur(String kw) {
-		return stuffPackDao.countBlur(kw);
+	public int countBlur(String kw, Integer packTypeId) {
+		return stuffPackDao.countBlur(kw, packTypeId);
 	}
 
 	@Override
-	public List<StuffPack> listBlur(String kw, Integer page, Integer pageSize) {
-		int start = pageSize * (page - 1);
-		return stuffPackDao.listBlur(kw, start, pageSize);
+	public List<StuffPack> listBlur(String kw, Integer page, Integer pageSize, Integer packTypeId) {
+		Integer start = pageSize * (page - 1);
+		return stuffPackDao.listBlur(kw, packTypeId, start, pageSize);
 	}
 
 }

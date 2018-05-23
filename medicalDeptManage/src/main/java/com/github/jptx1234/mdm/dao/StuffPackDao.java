@@ -16,8 +16,8 @@ public interface StuffPackDao {
 
 	void insert(StuffPack stuffPack);
 
-	int countBlur(@Param("kw") String kw);
+	int countBlur(@Param("kw") String kw, @Param("packTypeId")Integer packTypeId);
 
-	List<StuffPack> listBlur(@Param("kw") String kw, @Param("start") int start, @Param("size") int pageSize);
+	List<StuffPack> listBlur(@Param("kw") String kw, @Param("packTypeId") Integer packTypeId, @Param("start") int start, @Param("size") int pageSize);
 
 }

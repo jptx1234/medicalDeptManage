@@ -121,7 +121,7 @@
                         </a>
                         <ul class="sider-nav-s">
                            <li class=""><a href="javascript:;" onclick="openPageAtTab('文档类别维护','docType.html');">文档类别维护</a></li> 
-                           <li class=""><a href="#">文档上传和维护</a></li>
+                           <li class=""><a href="javascript:;" onclick="openPageAtTab('文档上传和维护','docInstance.html');">文档上传和维护</a></li> 
                         </ul>
                      </li>
                      <li>

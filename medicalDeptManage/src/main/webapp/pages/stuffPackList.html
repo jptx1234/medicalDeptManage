@@ -26,6 +26,7 @@
 <body>
 	<div id="tb" style="padding:0 30px;">
         包名称或描述: <input class="easyui-textbox" type="text" id="nameSearch" name="kw" style="width:166px;height:35px;line-height:35px;"></input>
+        物品包类别：<select id="qry-packTypeId" name="packTypeId"></select>
         <a href="javascript:;" id="qryBtn" class="easyui-linkbutton" iconCls="icon-search" data-options="selected:true">查询</a>
         <a href="javascript:;" id="resetBtn" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
         <div style="float: right;">
@@ -109,9 +110,12 @@
     		$('#nameSearch').textbox({});
     		
     		$("#qryBtn").click(function(){
-    			$("#dg").datagrid('load', {
-    				kw: $('#nameSearch').textbox('getValue')
-    			});
+    			var data = {kw: $('#nameSearch').textbox('getValue')};
+    			var packTypeId = $('#qry-packTypeId').val();
+    			if(packTypeId){
+    				data.packTypeId = packTypeId;
+    			}
+    			$("#dg").datagrid('load', data);
     		});
     		
     		$('#resetBtn').click(function(){
@@ -144,16 +148,16 @@
     		
     		$('#addBtn').click(function(){
     			$('#win').window('open');
-    			$.get(baseUrl+'/stuffPackType/list', {page: 1, rows: 0}, function(data){
-    				var rows = data.rows;
-    				var optionsHtml = '';
-    				for(i = 0, len = rows.length; i < len; i++){
-    					var nowRow = rows[i];
-    					optionsHtml += '<option value="'+nowRow.id+'">'+nowRow.packTypeName+'</option>';
-    				}
-    				$('#add-packTypeId').html(optionsHtml);
-    			}, 'json');
     		});
+    		$.get(baseUrl+'/stuffPackType/list', {page: 1, rows: 0}, function(data){
+    			var rows = data.rows;
+    			var optionsHtml = '<option value="">--未选择--</option>';
+    			for(i = 0, len = rows.length; i < len; i++){
+    				var nowRow = rows[i];
+    				optionsHtml += '<option value="'+nowRow.id+'">'+nowRow.packTypeName+'</option>';
+    			}
+    			$('select[name=packTypeId]').html(optionsHtml);
+    		}, 'json');
     		
     		$('#ff').form({    
 			    onSubmit: function(){    
