@@ -33,7 +33,7 @@
         </form>
       </div>
     <div class="container">
-       <table id="dg" style="width:100%;height:470px" title="人员管理">
+       <table id="dg" style="width:100%;" title="人员管理">
             <thead>
                 <tr>
                     <th field="id" data-options="halign: 'center', align:'center', checkbox: true" style="width: 5%;">选择</th>
