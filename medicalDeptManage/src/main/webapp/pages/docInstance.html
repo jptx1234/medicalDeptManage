@@ -42,14 +42,6 @@
 
 
 
-	<!--<div id="win" class="easyui-window" title="添加文章类别" style="width:1000px;height:600px;padding: 20px 20px 0 20px;"   
-        data-options="iconCls:'icon-save',modal:true, closed: true">   
-        <iframe src="docInstance-add.html" id="add-form-iframe" style="width: 100%; height: 85%; border: none;margin: 0 auto;"></iframe>
-	    <div style="margin-top: 18px;">
-	    	<a href="javascript:;" id="submitBtn" class="easyui-linkbutton" iconCls="icon-ok" style="float: left;margin-left: 30px;" data-options="selected:true">提交</a>
-    		<a href="javascript:;" id="resetAddBtn" class="easyui-linkbutton" iconCls="icon-reload"  style="float: right;margin-right: 30px;">重置</a>
-	    </div>
-	</div>  -->
 
     <script type="text/javascript">
     	baseUrl = '..';
@@ -111,45 +103,10 @@
     		});
     		
     		$('#addBtn').click(function(){
-//  			$('#win').window('open');
 				window.location.href = 'docInstance-add.html';
     		});
     		
 			
-			/*$('#resetAddBtn').click(function(){
-				$('#add-form-iframe')[0].contentDocument.location.reload();
-			});*/
-			
-			/*$('#submitBtn').click(function(){
-				if(!$('input[name="doc_type_name"]', form).val()){
-					$.messager.alert('字段未填写', '请填写文档类别名称', 'info');
-					return;
-				}
-				if(!$('input[name="doc_type_desc"]', form).val()){
-					$.messager.alert('字段未填写', '请选择文档类别描述', 'info');
-					return;
-				}
-				$.messager.progress({
-					text: '正在提交',
-					interval: 0
-				});	// 显示进度条
-				form.form('submit',{
-					url: baseUrl+'/docType/add',
-					success: function(data){
-						$.messager.progress('close');
-						data = JSON.parse(data);
-						if(data.status == 200){
-							$.messager.alert('添加成功', data.msg, 'info', function(){
-								$('#resetAddBtn').click();
-								$('#win').window('close');
-								$('#dg').datagrid('reload');
-							});
-						}else{
-							$.messager.alert('添加失败', data.msg, 'error');
-						}
-					}
-				});
-			});*/
 			
     	});
     </script>

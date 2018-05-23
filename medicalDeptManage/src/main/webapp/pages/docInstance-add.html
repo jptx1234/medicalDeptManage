@@ -8,11 +8,11 @@
 <link rel="stylesheet" href="plugins/summernote/bootstrap.min.css" />
 <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css" />
 <style>
-	html,
+	/*html,
 	body,
 	#ff {
 		height: 100%;
-	}
+	}*/
 	
 	table.kv-table {
 		width: 100%;
@@ -82,6 +82,20 @@
 		width: 80%;
 		line-height: 33px;
 	}
+	.center{
+		width: 30%;
+		margin: 0 auto;
+	}
+	#submitBtn, #resetAddBtn{
+		padding-left: 24px;
+		padding-right: 24px;
+	}
+	#submitBtn{
+		float: left;
+	}
+	#resetAddBtn{
+		float: right;
+	}
 </style>
 </head> 
 <body>
@@ -92,13 +106,19 @@
     			<tr class="kv-table-row">
     				<td class="kv-label">文档名称：</td>
     				<td class="kv-content">
-				        <input name="doc_type_name" type="text" class="textbox-text input-content" maxlength="2000" title="请输入文档类别名称，最多255个字节" />  
+				        <input name="doc_name" type="text" class="textbox-text input-content" maxlength="2000" title="请输入文档名称，最多255个字节" />  
     				</td>
     			</tr>
     			<tr class="kv-table-row">
     				<td class="kv-label">文档描述：</td>
     				<td class="kv-content">
-				        <input name="doc_type_desc" type="text" class="textbox-text input-content" maxlength="2000" title="请输入文档类别描述，最多2000个字节" />  
+				        <input name="doc_desc" type="text" class="textbox-text input-content" maxlength="2000" title="请输入文档描述，最多2000个字节" />  
+    				</td>
+    			</tr>
+    			<tr class="kv-table-row">
+    				<td class="kv-label">文档类别：</td>
+    				<td class="kv-content">
+				        <select name="doc_type_id"></select>  
     				</td>
     			</tr>
     			<tr class="kv-table-row">
@@ -112,19 +132,46 @@
     				<td class="kv-label">文档内容：</td>
     				<td class="kv-content">
     					<div id="doc_html">
-    						<div id="summernote"></div>
-    						<input type="hidden" name="doc_html" />
+    						<textarea id="summernote" name="doc_html"></textarea>
     					</div>
     					<div id="doc_file" style="display: none;">
-							<input name="doc_path" id="file-upload">
+							<input type="file" name="doc_path" id="file-upload">
     					</div>
     				</td>
     			</tr>
     		</tbody>
     	</table>
 	</form>  
+	<div style="margin-top: 18px;">
+		<div class="center">
+	    	<!--<a href="javascript:;" id="submitBtn" >提交</a>
+			<a href="javascript:;" id="resetAddBtn" >返回</a>-->
+			<button type="button" class="btn btn-success" id="submitBtn">提交</button>
+			<button type="button" class="btn btn-secondary" id="resetAddBtn" >返回</button>
+		</div>
+    </div>
+    
+    <div id="msgBox" class="modal" tabindex="-1" role="dialog" data-show="false">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="msgTitle"></h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <p id="msgBody"></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
     <script type="text/javascript" src="../custom/jquery.min.js"></script>
     <script type="text/javascript" src="../custom/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../custom/easyui-lang-zh_CN.js"></script>
     <script type="text/javascript" src="plugins/summernote/popper.min.js"></script>
     <script type="text/javascript" src="plugins/summernote/bootstrap.min.js"></script>
     <script type="text/javascript" src="plugins/summernote/summernote-bs4.min.js"></script>
@@ -141,7 +188,7 @@
 				var value = $(this).val();
 				if(value == 1){
 					$('#doc_file').hide();
-					$('#file-upload').filebox('clear');
+					$('#file-upload').val('');
 					$('#doc_html').show();
 				}else if(value == 0){
 					$('#doc_html').hide();
@@ -158,14 +205,66 @@
 				    ['fontsize', ['fontname', 'fontsize']],
 				    ['color', ['color']],
 				    ['para', ['ul', 'ol', 'paragraph', 'style']],
-				    ['height', ['height']],
+				    ['height', ['height', 'picture', 'link', 'video', 'table', 'hr']],
 				    ['misc', ['fullscreen', 'undo', 'redo', 'help', 'codeview']]
 				  ]
 			});
 			
-			$('#summernote').on('summernote.change', function(we, contents, $editable) {
-				$('#ff input[name=doc_html]').val(contents);
+			$('#ff').form();
+			
+			$.get(baseUrl+'/docType/list', {page: 1, rows: 0}, function(data){
+    			var rows = data.rows;
+    			var optionsHtml = '<option value="">--未选择--</option>';
+    			for(i = 0, len = rows.length; i < len; i++){
+    				var nowRow = rows[i];
+    				optionsHtml += '<option value="'+nowRow.id+'">'+nowRow.doc_type_name+'</option>';
+    			}
+    			$('select[name=doc_type_id]').html(optionsHtml);
+    		}, 'json');
+			
+			$('#resetAddBtn').click(function(){
+				window.location.href = 'docInstance.html';
 			});
+			
+			$('#submitBtn').click(function(){
+				var $this = $(this);
+				if(!$('input[name="doc_name"]').val()){
+					showMsg('字段未填写', '请填写文档名称');
+					return;
+				}
+				if(!$('input[name="doc_desc"]').val()){
+					showMsg('字段未填写', '请填写文档描述');
+					return;
+				}
+				if(!$('select[name="doc_type_id"]').val()){
+					showMsg('字段未填写', '请选择文档类别')
+				}
+				$this.attr('disabled', 'disabled').text('正在提交');
+				if($('input[name="is_html"]').val() == '0'){
+					$('#summernote').summernote('reset');
+				}
+				$('#ff').form('submit',{
+					url: baseUrl+'/docInstance/add',
+					success: function(data){
+						$this.removeAttr('disabled').text('提交');
+						data = JSON.parse(data);
+						if(data.status == 200){
+							$.messager.alert('添加成功', data.msg, 'info', function(){
+								$('#resetAddBtn').click();
+							});
+						}else{
+							showMsg('保存失败', data.msg);
+						}
+					}
+				});
+			});
+			
+			
+			function showMsg(title, content){
+				$('#msgTitle').text(title);
+				$('#msgBody').text(content);
+				$('#msgBox').modal('show');
+			}
     	});
     </script>
 </body> 
