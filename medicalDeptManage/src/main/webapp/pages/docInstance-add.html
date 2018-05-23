@@ -249,7 +249,7 @@
 							showMsg('字段未填写', '请选择文档类别');
 							return false;
 						}
-						if(!$('select[name="doc_author"]').val()){
+						if(!$('input[name="doc_author"]').val()){
 							showMsg('字段未填写', '请选择文档作者');
 							return false;
 						}
@@ -262,9 +262,7 @@
 						$this.removeAttr('disabled').text('提交');
 						data = JSON.parse(data);
 						if(data.status == 200){
-							$.messager.alert('添加成功', data.msg, 'info', function(){
-								$('#resetAddBtn').click();
-							});
+							showMsg('保存成功', data.msg);
 						}else{
 							showMsg('保存失败', data.msg);
 						}
@@ -278,6 +276,12 @@
 				$('#msgBody').text(content);
 				$('#msgBox').modal('show');
 			}
+			
+			$('#msgBox').on('hidden.bs.modal', function (e) {
+				if($('#msgTitle').text() == '保存成功'){
+					window.location.href = 'docInstance.html';
+				}
+			});
     	});
     </script>
 </body> 
