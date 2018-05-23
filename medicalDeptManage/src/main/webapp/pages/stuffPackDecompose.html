@@ -10,13 +10,14 @@
 <link rel="stylesheet" type="text/css" href="../custom/uimaker/icon.css">
 <link rel="stylesheet" href="css/providers.css">
 <style>
-	#ff label{
-		width: 40%;
+	#ff .kv-label{
+		width: 25%;
+	}
+	#ff .kv-content{
+		width: 75%;
 	}
 	#ff input.textbox-text{
-		height: 33px;
 		width: 60%;
-		line-height: 33px;
 	}
 	#ff .form-row{
 		margin-bottom: 20px;
@@ -34,7 +35,7 @@
         </div>
       </div>
     <div class="container">
-       <table id="dg" style="width:100%;height:554px" title="物品包分解实例维护">
+       <table id="dg" style="width:100%;" title="物品包分解实例维护">
             <thead>
                 <tr>
                     <th field="id" data-options="halign: 'center', align:'center', checkbox: true" style="width: 5%;">选择</th>
@@ -53,30 +54,41 @@
 
 
 
-	<div id="win" class="easyui-window" title="添加物品包分解实例" style="width:700px;height:600px;padding: 20px;"   
+	<div id="win" class="easyui-window" title="添加物品包分解实例" style="width:700px;padding: 20px;"   
         data-options="iconCls:'icon-save',modal:true, closed: true">   
-	    <form id="ff" method="post" style="width: 630px;margin: 0 auto;" enctype="multipart/form-data">   
-		    <div class="form-row">   
-		        <label for="packTypeId" >物品包：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-		        <select id="add-packTypeId" class="textbox-text" name="packId">
-		        	<option value="">--请选择--</option>
-		        </select>
-		    </div>   
-		    <div class="form-row">   
-		        <label for="decomposeName" >物品包分解实例名称：</label>   
-		        <input name="decomposeName" type="text" class="textbox-text" maxlength="2000" title="请输入物品包分解实例名称，最多255个字节" />  
-		    </div>
-		    <div class="form-row">   
-		        <label for="decomposeDesc" >物品包分解实例描述：</label>   
-		        <input name="decomposeDesc" type="text" class="textbox-text" maxlength="2000" title="请输入物品包分解实例描述，最多2000个字节" />  
-		    </div>
-		    <div >
-		    	<label for="decomposeImg">物品包分解实例图片：</label>
-		    	<input name="decomposeImg" type="file" />
-		    	<div style="text-align: center;margin-top: 20px;height: 200px;" >
-		    		<img id="img-preview" height="200" style="display: none;" />
-		    	</div>
-		    </div>
+        <h1 style="line-height: 100%;text-align: center;font-size: 100px;position: absolute;">TODO: 放物品包管理里面添加</h1>
+	    <form id="ff" method="post" style="width: 630px;margin: 0 auto;" enctype="multipart/form-data">  
+	    	<table class="kv-table">
+	    		<tr class="kv-table-row">
+	    			<td class="kv-label">物品包</td>
+	    			<td class="kv-content">
+				        <select id="add-packTypeId" class="textbox-text" name="packId">
+				        	<option value="">--请选择--</option>
+				        </select>
+	    			</td>
+	    		</tr>
+	    		<tr class="kv-table-row">
+	    			<td class="kv-label">物品包分解实例名称：</td>
+	    			<td class="kv-content">
+				        <input name="decomposeName" type="text" class="textbox-text" maxlength="2000" title="请输入物品包分解实例名称，最多255个字节" />  
+	    			</td>
+	    		</tr>
+	    		<tr class="kv-table-row">
+	    			<td class="kv-label">物品包分解实例描述：</td>
+	    			<td class="kv-content">
+				        <input name="decomposeDesc" type="text" class="textbox-text" maxlength="2000" title="请输入物品包分解实例描述，最多2000个字节" />  
+	    			</td>
+	    		</tr>
+	    		<tr class="kv-table-row">
+	    			<td class="kv-label">物品包分解实例图片：</td>
+	    			<td class="kv-content">
+				    	<input name="decomposeImg" type="file" />
+				    	<div style="text-align: center;margin-top: 20px;height: 200px;" >
+				    		<img id="img-preview" height="200" style="display: none;" />
+				    	</div>
+	    			</td>
+	    		</tr>
+	    	</table>
 		    <div style="margin-top: 18px;">
 		    	<a href="javascript:;" id="submitBtn" class="easyui-linkbutton" iconCls="icon-ok" style="float: left;margin-left: 30px;" data-options="selected:true">提交</a>
         		<a href="javascript:;" id="resetAddBtn" class="easyui-linkbutton" iconCls="icon-reload"  style="float: right;margin-right: 30px;">重置</a>
