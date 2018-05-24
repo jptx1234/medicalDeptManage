@@ -17,43 +17,43 @@
 	</sql>
 	<select id="count" resultType="int" parameterType="com.github.jptx1234.mdm.model.StuffPack">
 		select count(0)
-		from stuff_pack
+		from stuff_pack a left join stuff_pack_type b on a.pack_type_id = b.id
 		<where>
 			<if test="id != null">
-				id = #{id,jdbcType=INTEGER}
+				a.id = #{id,jdbcType=INTEGER}
 			</if>
 			<if test="packTypeName != null and packTypeId == null">
-				AND pack_type_id = (SELECT b.id FROM stuff_pack_type b WHERE b.pack_type_name = #{packTypeName,jdbcType=VARCHAR})
+				AND a.pack_type_id = (SELECT b.id FROM stuff_pack_type b WHERE b.pack_type_name = #{packTypeName,jdbcType=VARCHAR})
 			</if>
 			<if test="packTypeId != null">
-				AND pack_type_id = #{packTypeId,jdbcType=INTEGER}
+				AND a.pack_type_id = #{packTypeId,jdbcType=INTEGER}
 			</if>
 			<if test="packName != null">
-				AND pack_name LIKE CONCAT('%', #{packName,jdbcType=VARCHAR}, '%')
+				AND a.pack_name LIKE CONCAT('%', #{packName,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="packDesc != null">
-				AND pack_desc LIKE CONCAT('%', #{packDesc,jdbcType=VARCHAR}, '%')
+				AND a.pack_desc LIKE CONCAT('%', #{packDesc,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="state != null">
-				AND state = #{state,jdbcType=VARCHAR}
+				AND a.state = #{state,jdbcType=VARCHAR}
 			</if>
-			
+			and b.state = '1' and c.state = '1'
 		</where>
 	</select>
 	
 	<select id="countBlur" resultType="int">
 		select count(0)
-		from stuff_pack
+		from stuff_pack a left join stuff_pack_type b on  a.pack_type_id = b.id
 		WHERE 
-		state = '1'
+		a.state = '1' and b.state = '1'
 		AND
 		(
-			pack_name LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
+			a.pack_name LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
 			OR
-			pack_desc LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
+			a.pack_desc LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
 		)
 		<if test="packTypeId != null">
-		AND pack_type_id = #{packTypeId, jdbcType=INTEGER}
+		AND a.pack_type_id = #{packTypeId, jdbcType=INTEGER}
 		</if>
 	</select>
 	
@@ -80,7 +80,7 @@
 			<if test="example.state != null">
 				AND a.state = #{example.state,jdbcType=VARCHAR}
 			</if>
-			
+			and b.state = '1'
 		</where>
 		ORDER BY a.create_date DESC
 		<if test="size > 0" >
@@ -93,7 +93,7 @@
 		<include refid="Base_Column_List" />
 		from stuff_pack a LEFT JOIN stuff_pack_type b ON a.pack_type_id = b.id
 		WHERE 
-		a.state = '1'
+		a.state = '1' and b.state = '1'
 		AND
 		(
 			a.pack_name LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')

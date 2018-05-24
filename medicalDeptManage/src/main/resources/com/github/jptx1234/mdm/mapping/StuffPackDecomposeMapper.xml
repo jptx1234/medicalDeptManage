@@ -17,63 +17,64 @@
 	</sql>
 	<select id="count" resultType="int" parameterType="com.github.jptx1234.mdm.model.StuffPackDecompose">
 		select count(0)
-		from stuff_pack_decompose
+		from stuff_pack_decompose a left join stuff_pack b on a.pack_id = b.id left join stuff_pack_type c on b.pack_type_id = c.id
 		<where>
 			<if test="id != null">
-				id = #{id,jdbcType=INTEGER}
+				a.id = #{id,jdbcType=INTEGER}
 			</if>
 			<if test="packName != null and packId == null">
-				AND pack_type_id = (SELECT b.id FROM stuff_pack_type b WHERE b.pack_type_name = #{packTypeName,jdbcType=VARCHAR})
+				AND a.pack_type_id = (SELECT b.id FROM stuff_pack_type b WHERE b.pack_type_name = #{packTypeName,jdbcType=VARCHAR})
 			</if>
 			<if test="packId != null">
-				AND pack_type_id = #{packTypeId,jdbcType=INTEGER}
+				AND a.pack_type_id = #{packTypeId,jdbcType=INTEGER}
 			</if>
 			<if test="decomposeName != null">
-				AND decompose_name LIKE CONCAT('%', #{decomposeName,jdbcType=VARCHAR}, '%')
+				AND a.decompose_name LIKE CONCAT('%', #{decomposeName,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="decomposeDesc != null">
-				AND decompose_desc LIKE CONCAT('%', #{decomposeDesc,jdbcType=VARCHAR}, '%')
+				AND a.decompose_desc LIKE CONCAT('%', #{decomposeDesc,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="state != null">
-				AND state = #{state,jdbcType=VARCHAR}
+				AND a.state = #{state,jdbcType=VARCHAR}
 			</if>
-			
+			and b.state = '1' and c.state = '1'
 		</where>
 	</select>
 	
 	<select id="countBlur" resultType="int">
 		select count(0)
-		from stuff_pack_decompose
+		from stuff_pack_decompose a left join stuff_pack b on a.pack_id = b.id left join stuff_pack_type c on b.pack_type_id = c.id
 		WHERE 
-		state = '1'
+		a.state = '1' and b.state = '1' and c.state = '1'
 		AND
 		(
-			decompose_name LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
+			a.decompose_name LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
 			OR
-			decompose_desc LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
+			a.decompose_desc LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
 		)
 	</select>
 	
 	<select id="listByPage" resultMap="resultMap">
 		select 
 		<include refid="Base_Column_List" />
-		from stuff_pack_decompose a LEFT JOIN stuff_pack b ON a.pack_id = b.id
+		from stuff_pack_decompose a left join stuff_pack b on a.pack_id = b.id left join stuff_pack_type c on b.pack_type_id = c.id
 		<where>
 			<if test="example.id != null">
 				a.id = #{example.id,jdbcType=INTEGER}
 			</if>
 			<if test="example.packId != null">
-				AND pack_id =  #{example.packId,jdbcType=INTEGER}
+				AND a.pack_id =  #{example.packId,jdbcType=INTEGER}
 			</if>
 			<if test="example.decomposeName != null">
-				AND decompose_name LIKE CONCAT('%', #{example.decomposeName,jdbcType=VARCHAR}, '%')
+				AND a.decompose_name LIKE CONCAT('%', #{example.decomposeName,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="example.decomposeDesc != null">
-				AND decompose_desc LIKE CONCAT('%', #{example.decomposeName,jdbcType=VARCHAR}, '%')
+				AND a.decompose_desc LIKE CONCAT('%', #{example.decomposeName,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="example.state != null">
 				AND a.state = #{example.state,jdbcType=VARCHAR}
 			</if>
+			and b.state = '1' and c.state = '1'
 			
 		</where>
 		ORDER BY a.create_date DESC
@@ -85,9 +86,9 @@
 	<select id="listBlur" resultMap="resultMap">
 		select 
 		<include refid="Base_Column_List" />
-		from stuff_pack_decompose a LEFT JOIN stuff_pack b ON a.pack_id = b.id
+		from stuff_pack_decompose a left join stuff_pack b on a.pack_id = b.id left join stuff_pack_type c on b.pack_type_id = c.id
 		WHERE 
-		a.state = '1'
+		a.state = '1' and b.state = '1' and c.state = '1'
 		AND
 		(
 			a.decompose_name LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')

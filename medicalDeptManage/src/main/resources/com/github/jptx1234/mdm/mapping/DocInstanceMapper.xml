@@ -21,55 +21,56 @@
 	</sql>
 	<select id="count" resultType="int" parameterType="com.github.jptx1234.mdm.model.DocInstance">
 		select count(0)
-		from doc_instance
+		from doc_instance a left join doc_type b on a.doc_type_id = b.id
 		<where>
 			<if test="id != null">
-				id = #{id,jdbcType=INTEGER}
+				a.id = #{id,jdbcType=INTEGER}
 			</if>
 			<if test="doc_type_name != null and doc_type_id == null">
-				AND doc_type_id = (SELECT b.id FROM doc_type b WHERE b.doc_type_name = #{doc_type_name,jdbcType=VARCHAR})
+				AND a.doc_type_id = (SELECT b.id FROM doc_type b WHERE b.doc_type_name = #{doc_type_name,jdbcType=VARCHAR})
 			</if>
 			<if test="doc_type_id != null">
-				AND doc_type_id = #{doc_type_id,jdbcType=INTEGER}
+				AND a.doc_type_id = #{doc_type_id,jdbcType=INTEGER}
 			</if>
 			<if test="doc_name != null">
-				AND doc_name LIKE CONCAT('%', #{doc_name,jdbcType=VARCHAR}, '%')
+				AND a.doc_name LIKE CONCAT('%', #{doc_name,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="doc_desc != null">
-				AND doc_desc LIKE CONCAT('%', #{doc_desc,jdbcType=VARCHAR}, '%')
+				AND a.doc_desc LIKE CONCAT('%', #{doc_desc,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="doc_author != null">
-				AND doc_author = #{doc_author,jdbcType=VARCHAR}
+				AND a.doc_author = #{doc_author,jdbcType=VARCHAR}
 			</if>
 			<if test="doc_path != null">
-				AND doc_path = #{doc_path,jdbcType=VARCHAR}
+				AND a.doc_path = #{doc_path,jdbcType=VARCHAR}
 			</if>
 			<if test="is_html != null">
-				AND is_html = #{is_html,jdbcType=VARCHAR}
+				AND a.is_html = #{is_html,jdbcType=VARCHAR}
 			</if>
 			<if test="doc_html != null">
-				AND doc_html LIKE CONCAT('%', #{doc_html,jdbcType=VARCHAR}, '%')
+				AND a.doc_html LIKE CONCAT('%', #{doc_html,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="state != null">
-				AND state = #{state,jdbcType=VARCHAR}
+				AND a.state = #{state,jdbcType=VARCHAR}
 			</if>
+			AND b.state = '1'
 			
 		</where>
 	</select>
 	
 	<select id="countBlur" resultType="int">
 		select count(0)
-		from doc_instance
+		from doc_instance a left JOIN doc_type b ON a.doc_type_id = b.id
 		WHERE 
-		state = '1'
+		a.state = '1' AND b.state = '1'
 		AND
 		(
-			doc_name LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
+			a.doc_name LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
 			OR
-			doc_desc LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
+			a.doc_desc LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
 		)
 		<if test="doc_type_id != null">
-		AND doc_type_id = #{doc_type_id, jdbcType=INTEGER}
+		AND a.doc_type_id = #{doc_type_id, jdbcType=INTEGER}
 		</if>
 	</select>
 	
@@ -82,30 +83,30 @@
 				a.id = #{example.id,jdbcType=INTEGER}
 			</if>
 			<if test="example.doc_type_id != null">
-				AND doc_type_id =  #{example.doc_type_id,jdbcType=INTEGER}
+				AND a.doc_type_id =  #{example.doc_type_id,jdbcType=INTEGER}
 			</if>
 			<if test="example.doc_name != null">
-				AND doc_name LIKE CONCAT('%', #{example.doc_name,jdbcType=VARCHAR}, '%')
+				AND a.doc_name LIKE CONCAT('%', #{example.doc_name,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="example.doc_desc != null">
-				AND doc_desc LIKE CONCAT('%', #{example.doc_desc,jdbcType=VARCHAR}, '%')
+				AND a.doc_desc LIKE CONCAT('%', #{example.doc_desc,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="example.doc_author != null">
-				AND doc_author = #{example.doc_author,jdbcType=VARCHAR}
+				AND a.doc_author = #{example.doc_author,jdbcType=VARCHAR}
 			</if>
 			<if test="example.doc_path != null">
-				AND doc_path = #{example.doc_path,jdbcType=VARCHAR}
+				AND a.doc_path = #{example.doc_path,jdbcType=VARCHAR}
 			</if>
 			<if test="example.is_html != null">
-				AND is_html = #{example.is_html,jdbcType=VARCHAR}
+				AND a.is_html = #{example.is_html,jdbcType=VARCHAR}
 			</if>
 			<if test="example.doc_html != null">
-				AND doc_html LIKE CONCAT('%', #{example.doc_html,jdbcType=VARCHAR}, '%')
+				AND a.doc_html LIKE CONCAT('%', #{example.doc_html,jdbcType=VARCHAR}, '%')
 			</if>
 			<if test="example.state != null">
-				AND state = #{example.state,jdbcType=VARCHAR}
+				AND a.state = #{example.state,jdbcType=VARCHAR}
 			</if>
-			
+			AND b.state = '1'
 		</where>
 		ORDER BY a.create_date DESC
 		<if test="size > 0" >
@@ -120,7 +121,7 @@
 		 a.state as state, a.create_date as create_date, a.state_date as state_date
 		from doc_instance a LEFT JOIN doc_type b ON a.doc_type_id = b.id
 		WHERE 
-		a.state = '1'
+		a.state = '1' AND b.state = '1'
 		AND
 		(
 			a.doc_name LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')

@@ -96,7 +96,7 @@
     			}
     			$.messager.confirm('删除确认', '是否删除这'+ids.length+'条', function(b){
     				if(b){
-    					$.post(baseUrl+'/docType/delete', {id: ids.join(',')}, function(data){
+    					$.post(baseUrl+'/docInstance/delete', {id: ids.join(',')}, function(data){
     						if(data.status == 200){
     							$.messager.alert('删除成功', data.msg, 'info', function(){$('#dg').datagrid('reload');});
     						}else{

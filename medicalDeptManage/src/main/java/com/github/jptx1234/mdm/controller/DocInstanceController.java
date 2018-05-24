@@ -99,7 +99,32 @@ public class DocInstanceController {
 			resultObject.put("status", 200);
 			resultObject.put("msg", "添加成功");
 		}catch (Exception e) {
-			logger.error("添加物品包类别出错", e);
+			logger.error("添加文档出错", e);
+			resultObject.put("status", 500);
+			resultObject.put("msg", "添加出错：" + e.getLocalizedMessage());
+		}
+		
+		return resultObject;
+	}
+	
+	
+	@RequestMapping("/get")
+	public JSON getOne(@RequestParam("id") Integer id) {
+		DocInstance docInstance = null;
+		JSONObject resultObject = new JSONObject();
+		try {
+			docInstance = docInstanceService.getOne(id);
+			if(docInstance == null) {
+				resultObject.put("data", null);
+				resultObject.put("status", 404);
+				resultObject.put("msg", "未找到此文档");
+			}else {
+				resultObject.put("data", docInstance);
+				resultObject.put("status", 200);
+				resultObject.put("msg", "查询成功");
+			}
+		}catch (Exception e) {
+			logger.error("查询单个文档出错", e);
 			resultObject.put("status", 500);
 			resultObject.put("msg", "添加出错：" + e.getLocalizedMessage());
 		}

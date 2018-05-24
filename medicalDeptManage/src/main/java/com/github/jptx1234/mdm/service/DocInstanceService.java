@@ -20,4 +20,6 @@ public interface DocInstanceService {
 
 	List<DocInstance> listBlur(String kw, Integer page, Integer pageSize, Integer doc_type_id);
 
+	DocInstance getOne(Integer id);
+
 }

@@ -52,4 +52,15 @@ public class DocInstanceServiceImpl implements DocInstanceService {
 		return docInstanceDao.listBlur(kw, doc_type_id, start, pageSize);
 	}
 
+	@Override
+	public DocInstance getOne(Integer id) {
+		DocInstance example = new DocInstance();
+		example.setId(id);
+		List<DocInstance> list = docInstanceDao.listByPage(example, 0, 0);
+		if(list == null || list.isEmpty()) {
+			return null;
+		}
+		return list.get(0);
+	}
+
 }
