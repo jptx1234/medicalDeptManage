@@ -15,8 +15,8 @@ public interface StuffPackDecomposeService {
 
 	void add(StuffPackDecompose stuffPackType);
 
-	int countBlur(String kw);
+	int countBlur(String kw, Integer packId);
 
-	List<StuffPackDecompose> listBlur(String kw, Integer page, Integer pageSize);
+	List<StuffPackDecompose> listBlur(String kw, Integer page, Integer pageSize, Integer packId);
 
 }

@@ -31,14 +31,14 @@ public class StuffPackDecomposeController {
 	private StuffPackDecomposeService stuffPackDecomposeService;
 	
 	@RequestMapping("/list")
-	public JSON list(@RequestParam(value="kw", required=false, defaultValue="") String kw, @RequestParam(value="page", required=false, defaultValue="1") Integer page, @RequestParam(value="rows", required=false, defaultValue="100") Integer pageSize) {
+	public JSON list(@RequestParam(value="kw", required=false, defaultValue="") String kw, @RequestParam(value="page", required=false, defaultValue="1") Integer page, @RequestParam(value="rows", required=false, defaultValue="100") Integer pageSize, @RequestParam(value="packId", required=false) Integer packId) {
 		logger.info("查物品包分解实例列表，查询条件：kw="+kw+"，页号"+page+"，页大小"+pageSize);
 		int total = 0;
 		List<StuffPackDecompose> rows = new ArrayList<>();
 		JSONObject resultObject = new JSONObject();
 		try {
-			total = stuffPackDecomposeService.countBlur(kw);
-			rows = stuffPackDecomposeService.listBlur(kw, page, pageSize);
+			total = stuffPackDecomposeService.countBlur(kw, packId);
+			rows = stuffPackDecomposeService.listBlur(kw, page, pageSize, packId);
 			resultObject.put("status", 200);
 			resultObject.put("msg", "查询成功");
 		}catch (Exception e) {

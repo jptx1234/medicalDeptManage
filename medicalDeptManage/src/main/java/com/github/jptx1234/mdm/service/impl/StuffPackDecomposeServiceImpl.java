@@ -42,14 +42,14 @@ public class StuffPackDecomposeServiceImpl implements StuffPackDecomposeService 
 	}
 
 	@Override
-	public int countBlur(String kw) {
-		return stuffPackDecomposeDao.countBlur(kw);
+	public int countBlur(String kw, Integer packId) {
+		return stuffPackDecomposeDao.countBlur(kw, packId);
 	}
 
 	@Override
-	public List<StuffPackDecompose> listBlur(String kw, Integer page, Integer pageSize) {
+	public List<StuffPackDecompose> listBlur(String kw, Integer page, Integer pageSize, Integer packId) {
 		int start = pageSize * (page - 1);
-		return stuffPackDecomposeDao.listBlur(kw, start, pageSize);
+		return stuffPackDecomposeDao.listBlur(kw, start, pageSize, packId);
 	}
 
 }
