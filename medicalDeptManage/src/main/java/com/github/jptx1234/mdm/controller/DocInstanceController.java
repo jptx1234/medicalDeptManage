@@ -31,14 +31,14 @@ public class DocInstanceController {
 	private DocInstanceService docInstanceService;
 	
 	@RequestMapping("/list")
-	public JSON list(@RequestParam(value="kw", required=false, defaultValue="") String kw, @RequestParam(value="page", required=false, defaultValue="1") Integer page, @RequestParam(value="rows", required=false, defaultValue="100") Integer pageSize) {
+	public JSON list(@RequestParam(value="kw", required=false, defaultValue="") String kw, @RequestParam(value="page", required=false, defaultValue="1") Integer page, @RequestParam(value="rows", required=false, defaultValue="100") Integer pageSize, @RequestParam(value="doc_type_id", required=false) Integer doc_type_id) {
 		logger.info("查文档实例列表，查询条件：kw="+kw+"，页号"+page+"，页大小"+pageSize);
 		int total = 0;
 		List<DocInstance> rows = new ArrayList<>();
 		JSONObject resultObject = new JSONObject();
 		try {
-			total = docInstanceService.countBlur(kw);
-			rows = docInstanceService.listBlur(kw, page, pageSize);
+			total = docInstanceService.countBlur(kw, doc_type_id);
+			rows = docInstanceService.listBlur(kw, page, pageSize, doc_type_id);
 			resultObject.put("status", 200);
 			resultObject.put("msg", "查询成功");
 		}catch (Exception e) {
@@ -106,6 +106,8 @@ public class DocInstanceController {
 		
 		return resultObject;
 	}
+	
+	
 	
 
 }

@@ -16,8 +16,8 @@ public interface DocInstanceService {
 
 	void add(DocInstance docInstance);
 
-	int countBlur(String kw);
+	int countBlur(String kw, Integer doc_type_id);
 
-	List<DocInstance> listBlur(String kw, Integer page, Integer pageSize);
+	List<DocInstance> listBlur(String kw, Integer page, Integer pageSize, Integer doc_type_id);
 
 }

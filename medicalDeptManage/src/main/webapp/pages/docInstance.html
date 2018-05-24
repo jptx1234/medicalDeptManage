@@ -15,6 +15,7 @@
 <body>
 	<div id="tb" style="padding:0 30px;">
         文档名称或描述: <input class="easyui-textbox" type="text" id="nameSearch" name="kw" style="width:166px;height:35px;line-height:35px;"></input>
+        文档类别：<select id="qry-docTypeId" name="doc_type_id"></select>
         <a href="javascript:;" id="qryBtn" class="easyui-linkbutton" iconCls="icon-search" data-options="selected:true">查询</a>
         <a href="javascript:;" id="resetBtn" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
         <div style="float: right;">
@@ -68,9 +69,14 @@
     		$('#nameSearch').textbox({});
     		
     		$("#qryBtn").click(function(){
-    			$("#dg").datagrid('load', {
+    			var qryData = {
     				kw: $('#nameSearch').textbox('getValue')
-    			});
+    			};
+    			var docTypeId = $('#qry-docTypeId').val();
+    			if(docTypeId){
+    				qryData.doc_type_id = docTypeId;
+    			}
+    			$("#dg").datagrid('load', qryData);
     		});
     		
     		
@@ -106,7 +112,15 @@
 				window.location.href = 'docInstance-add.html';
     		});
     		
-			
+			$.get(baseUrl+'/docType/list', {page: 1, rows: 0}, function(data){
+				var rows = data.rows;
+    			var optionsHtml = '<option value="">--未选择--</option>';
+    			for(i = 0, len = rows.length; i < len; i++){
+    				var nowRow = rows[i];
+    				optionsHtml += '<option value="'+nowRow.id+'">'+nowRow.doc_type_name+'</option>';
+    			}
+    			$('select[name=doc_type_id]').html(optionsHtml);
+			}, 'json');
 			
     	});
     </script>

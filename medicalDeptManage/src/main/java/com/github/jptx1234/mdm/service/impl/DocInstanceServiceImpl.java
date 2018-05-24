@@ -42,14 +42,14 @@ public class DocInstanceServiceImpl implements DocInstanceService {
 	}
 
 	@Override
-	public int countBlur(String kw) {
-		return docInstanceDao.countBlur(kw);
+	public int countBlur(String kw, Integer doc_type_id) {
+		return docInstanceDao.countBlur(kw, doc_type_id);
 	}
 
 	@Override
-	public List<DocInstance> listBlur(String kw, Integer page, Integer pageSize) {
+	public List<DocInstance> listBlur(String kw, Integer page, Integer pageSize, Integer doc_type_id) {
 		int start = pageSize * (page - 1);
-		return docInstanceDao.listBlur(kw, start, pageSize);
+		return docInstanceDao.listBlur(kw, doc_type_id, start, pageSize);
 	}
 
 }

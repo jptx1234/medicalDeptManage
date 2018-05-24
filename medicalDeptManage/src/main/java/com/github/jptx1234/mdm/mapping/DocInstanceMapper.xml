@@ -68,6 +68,9 @@
 			OR
 			doc_desc LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
 		)
+		<if test="doc_type_id != null">
+		AND doc_type_id = #{doc_type_id, jdbcType=INTEGER}
+		</if>
 	</select>
 	
 	<select id="listByPage" resultMap="resultMap">
@@ -112,7 +115,9 @@
 	
 	<select id="listBlur" resultMap="resultMap">
 		select 
-		<include refid="Base_Column_List" />
+		a.id AS id, b.id as doc_type_id, b.doc_type_name as doc_type_name, a.doc_name as doc_name, a.doc_desc as doc_desc, 
+		a.doc_author as doc_author, a.doc_path as doc_path,  a.is_html as is_html,
+		 a.state as state, a.create_date as create_date, a.state_date as state_date
 		from doc_instance a LEFT JOIN doc_type b ON a.doc_type_id = b.id
 		WHERE 
 		a.state = '1'
@@ -122,6 +127,9 @@
 			OR
 			a.doc_desc LIKE CONCAT('%', #{kw,jdbcType=VARCHAR}, '%')
 		)
+		<if test="doc_type_id != null">
+		AND a.doc_type_id = #{doc_type_id, jdbcType=INTEGER}
+		</if>
 		ORDER BY a.create_date DESC
 		<if test="size > 0">
 			LIMIT #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}

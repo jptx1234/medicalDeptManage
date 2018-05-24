@@ -17,8 +17,8 @@ public interface DocInstanceDao {
 
 	void insert(DocInstance docInstance);
 
-	int countBlur(@Param("kw") String kw);
+	int countBlur(@Param("kw") String kw, @Param("doc_type_id") Integer doc_type_id);
 
-	List<DocInstance> listBlur(@Param("kw") String kw, @Param("start") int start, @Param("size") int pageSize);
+	List<DocInstance> listBlur(@Param("kw") String kw, @Param("doc_type_id") Integer doc_type_id, @Param("start") int start, @Param("size") int pageSize);
 
 }
